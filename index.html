@@ -29,6 +29,9 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .screen {
@@ -228,9 +231,16 @@
         }
 
         .questions-container {
-            max-height: 70vh;
+            max-height: 60vh;
             overflow-y: auto;
             padding: 20px;
+            width: 100%;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .questions-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
 
         .question-item {
@@ -333,27 +343,7 @@
             z-index: 10;
         }
 
-        /* 홈으로 버튼 스타일 */
-        .home-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 8px 16px;
-            background-color: #fff;
-            color: #666;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
 
-        .home-btn:hover {
-            background-color: #f8f8f8;
-            border-color: #ccc;
-        }
 
         .share-buttons {
             display: flex;
@@ -402,14 +392,10 @@
 
         <!-- 테스트 화면 -->
         <div class="screen test-screen" id="testScreen">
-            <!-- 개발용 테스트 기능 시작 -->
-            <button class="home-btn" onclick="goToHome()">← 홈으로</button>
-            <!-- 개발용 테스트 기능 끝 -->
-            
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="progress-text" id="progressText">1 / 80</div>
+            <div class="progress-text" id="progressText">1 / 20</div>
             
             <div class="questions-container" id="questionsContainer">
                 <!-- 질문들이 동적으로 추가됩니다 -->
@@ -543,13 +529,72 @@
             return shuffled;
         }
 
-        // 질문 섞기
-        testConfig.questions = shuffleQuestions(testConfig.questions);
+        // 각 카테고리별로 5개씩 선택하여 총 20개 질문 구성
+        function selectQuestionsForTest() {
+            const selectedQuestions = [];
+            
+            // 각 카테고리별로 질문들을 그룹화
+            const questionsByCategory = [[], [], [], []];
+            testConfig.questions.forEach(question => {
+                questionsByCategory[question.category].push(question);
+            });
+            
+            // 각 카테고리에서 5개씩 랜덤하게 선택
+            questionsByCategory.forEach(categoryQuestions => {
+                const shuffled = shuffleQuestions(categoryQuestions);
+                const selected = shuffled.slice(0, 5); // 상위 5개만 선택
+                selectedQuestions.push(...selected);
+            });
+            
+            // 선택된 20개 질문을 다시 섞기
+            return shuffleQuestions(selectedQuestions);
+        }
+
+        // 테스트용 질문 리스트 생성
+        let testQuestions = selectQuestionsForTest();
 
         // 테스트 상태
         let currentQuestion = 0;
         let answers = [];
         let scores = [0, 0, 0, 0]; // 4개 카테고리별 점수
+
+        // ==========================================
+        // 화면 전환 유틸리티 함수
+        // ==========================================
+        
+        function switchScreen(targetScreenId) {
+            // 모든 화면 ID 배열
+            const allScreens = ['homeScreen', 'testScreen', 'resultScreen'];
+            
+            // 모든 화면 숨기기
+            allScreens.forEach(screenId => {
+                const screen = document.getElementById(screenId);
+                screen.classList.remove('show');
+                screen.classList.add('hidden');
+            });
+            
+            // 대상 화면만 표시
+            const targetScreen = document.getElementById(targetScreenId);
+            targetScreen.classList.remove('hidden');
+            targetScreen.classList.add('show');
+            
+            // ==========================================
+            // 스크롤 위치 초기화 (화면 밀림 방지)
+            // ==========================================
+            // 전체 페이지 스크롤 초기화
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            
+            // 질문 컨테이너 스크롤 초기화
+            const questionsContainer = document.getElementById('questionsContainer');
+            if (questionsContainer) {
+                questionsContainer.scrollTop = 0;
+            }
+            // ==========================================
+            // 스크롤 위치 초기화 끝
+            // ==========================================
+        }
 
         // ==========================================
         // 개발용 테스트 기능 시작
@@ -564,30 +609,9 @@
                 (Math.random() - 0.5) * 6  // K리더십
             ];
             
-            // 홈 화면 숨기고 결과 화면 표시
-            document.getElementById('homeScreen').classList.add('hidden');
-            document.getElementById('resultScreen').classList.add('show');
-            
+            // 결과 화면으로 전환
+            switchScreen('resultScreen');
             showResult();
-        }
-
-        function goToHome() {
-            // 모든 테스트 데이터 초기화
-            currentQuestion = 0;
-            answers = [];
-            scores = [0, 0, 0, 0];
-            
-            // 질문 컨테이너 초기화
-            document.getElementById('questionsContainer').innerHTML = '';
-            
-            // 진행률 초기화
-            document.getElementById('progressText').textContent = '1 / 80';
-            document.getElementById('progressFill').style.width = '0%';
-            
-            // 모든 화면 숨기고 홈 화면만 표시
-            document.getElementById('testScreen').classList.add('hidden');
-            document.getElementById('resultScreen').classList.add('hidden');
-            document.getElementById('homeScreen').classList.remove('hidden');
         }
 
         // ==========================================
@@ -595,18 +619,17 @@
         // ==========================================
 
         function startTest() {
-            document.getElementById('homeScreen').classList.add('hidden');
-            document.getElementById('testScreen').classList.add('show');
+            switchScreen('testScreen');
             showNextQuestion();
         }
 
         function showNextQuestion() {
-            if (currentQuestion >= testConfig.questions.length) {
+            if (currentQuestion >= testQuestions.length) {
                 showResult();
                 return;
             }
 
-            const question = testConfig.questions[currentQuestion];
+            const question = testQuestions[currentQuestion];
             const questionsContainer = document.getElementById('questionsContainer');
             
             // 새 질문 요소 생성
@@ -641,8 +664,8 @@
             });
 
             // 진행률 업데이트
-            document.getElementById('progressText').textContent = `${currentQuestion + 1} / 80`;
-            document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / 80) * 100}%`;
+            document.getElementById('progressText').textContent = `${currentQuestion + 1} / 20`;
+            document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / 20) * 100}%`;
             
             // 스크롤을 새 질문으로 이동
             setTimeout(() => {
@@ -673,20 +696,19 @@
             answers[questionIndex] = value;
             
             // 점수 계산
-            const question = testConfig.questions[questionIndex];
+            const question = testQuestions[questionIndex];
             scores[question.category] += value - 3.5;
             
             currentQuestion++;
             
-            // 다음 질문 표시 (0.8초 후)
+            // 다음 질문 표시 (0.1초 후)
             setTimeout(() => {
                 showNextQuestion();
-            }, 800);
+            }, 100);
         }
 
         function showResult() {
-            document.getElementById('testScreen').classList.add('hidden');
-            document.getElementById('resultScreen').classList.add('show');
+            switchScreen('resultScreen');
 
             // 성향 코드 생성
             let personalityCode = '';
@@ -741,14 +763,19 @@
         }
 
         function restartTest() {
+            // 테스트 데이터 초기화
             currentQuestion = 0;
             answers = [];
             scores = [0, 0, 0, 0];
-            testConfig.questions = shuffleQuestions(testConfig.questions);
+            testQuestions = selectQuestionsForTest();
+            
+            // UI 초기화
             document.getElementById('questionsContainer').innerHTML = '';
-            document.getElementById('resultScreen').classList.add('hidden');
-            document.getElementById('testScreen').classList.add('hidden');
-            document.getElementById('homeScreen').classList.remove('hidden');
+            document.getElementById('progressText').textContent = '1 / 20';
+            document.getElementById('progressFill').style.width = '0%';
+            
+            // 홈 화면으로 전환
+            switchScreen('homeScreen');
         }
 
         function shareKakaoTalk() {
