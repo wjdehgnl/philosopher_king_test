@@ -69,34 +69,87 @@
             line-height: 1.4;
         }
 
-        .personality-icon {
-            width: 200px;
+        .cards-container {
+            width: 300px;
             height: 200px;
             margin: 0 auto 40px;
-            background: linear-gradient(45deg, #d30000, #FF3C43, #FF7719);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .role-card {
+            width: 80px;
+            height: 120px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            position: absolute;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
 
-        .personality-icon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.2) 100%);
+        .role-card.philosopher {
+            left: 20px;
+            transform: rotate(-15deg);
+            z-index: 3;
         }
 
-        .personality-icon-text {
-            font-size: 36px;
-            font-weight: 900;
-            color: white;
+        .role-card.guardian {
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+            z-index: 2;
+        }
+
+        .role-card.citizen {
+            right: 20px;
+            transform: rotate(15deg);
             z-index: 1;
+        }
+
+        .card-corner-top {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .card-corner-bottom {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+            transform: rotate(180deg);
+        }
+
+        .card-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 8px;
+        }
+
+        .philosopher .card-corner-top,
+        .philosopher .card-corner-bottom {
+            color: #8B4513;
+        }
+
+        .guardian .card-corner-top,
+        .guardian .card-corner-bottom {
+            color: #4169E1;
+        }
+
+        .citizen .card-corner-top,
+        .citizen .card-corner-bottom {
+            color: #DAA520;
         }
 
         .start-buttons {
@@ -138,34 +191,137 @@
             background-color: #f8f8f8;
         }
 
+        /* 닉네임생성 화면 */
+        .nickname-screen {
+            display: none;
+            padding: 40px 25px 0px 25px;
+            text-align: center;
+            position: relative;
+            height: 100vh;
+        }
+
+        .nickname-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 80px;
+        }
+
+        .contract-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #d30000;
+            margin-bottom: 40px;
+        }
+
+        .contract-paragraph {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 25px;
+            text-align: center;
+            max-width: 320px;
+        }
+
+        .signature-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+
+        .nickname-input {
+            width: 100%;
+            max-width: 280px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        .nickname-input:focus {
+            outline: none;
+            border-color: #d30000;
+        }
+
+        .nickname-input::placeholder {
+            color: #999;
+            font-weight: 400;
+        }
+
+        .char-counter {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .start-with-nickname-btn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #ccc;
+            pointer-events: none;
+            z-index: 1001;
+        }
+
+        .start-with-nickname-btn.active {
+            background-color: #d30000;
+            pointer-events: auto;
+        }
+
+        .start-with-nickname-btn.active:hover {
+            background-color: #b50000;
+        }
+
         /* 테스트 화면 */
         .test-screen {
             display: none;
-            padding: 20px;
+            padding: 40px 20px 20px 20px;
         }
 
         .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             width: 100%;
-            height: 6px;
+            height: 50px;
             background-color: #e0e0e0;
-            border-radius: 3px;
-            margin-bottom: 30px;
+            border-radius: 0;
+            margin-bottom: 0;
             overflow: hidden;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #d30000, #FF3C43, #FF7719);
-            border-radius: 3px;
+            border-radius: 0;
             transition: width 0.5s ease;
             width: 0%;
         }
 
         .progress-text {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: #666;
+            display: none;
         }
 
         .question-container {
@@ -184,20 +340,20 @@
             font-weight: 600;
             color: #333;
             line-height: 1.4;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .options-container {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 8px;
-            margin-bottom: 40px;
+            margin-bottom: 8px;
         }
 
+        /* 수정된 선택지 버튼 스타일 */
         .option-btn {
-            width: 40px;
-            height: 40px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #000;
             border-radius: 50%;
             background-color: white;
             cursor: pointer;
@@ -210,14 +366,31 @@
             color: #999;
         }
 
+        /* 가장 바깥쪽 (1,6번) - 48px */
+        .option-btn[data-value="1"], 
+        .option-btn[data-value="6"] {
+            width: 48px;
+            height: 48px;
+        }
+
+        /* 나머지 (2,3,4,5번) - 40px 통일 */
+        .option-btn[data-value="2"], 
+        .option-btn[data-value="3"],
+        .option-btn[data-value="4"],
+        .option-btn[data-value="5"] {
+            width: 40px;
+            height: 40px;
+        }
+
         .option-btn:hover {
             border-color: #d30000;
             transform: scale(1.05);
         }
 
+        /* 선택된 상태 색깔 변경 - 검정색으로 */
         .option-btn.selected {
-            background-color: #333;
-            border-color: #333;
+            background-color: #000;
+            border-color: #000;
             color: white;
         }
 
@@ -225,16 +398,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-top: 8px;
+            margin-bottom: 0px;
             font-size: 12px;
             color: #666;
-            padding: 0 20px;
+            padding: 0 4px;
         }
 
         .questions-container {
-            max-height: 60vh;
+            max-height: 75vh;
             overflow-y: auto;
-            padding: 20px;
+            padding: 0px 20px 80px 20px; /* 하단 패딩 80px로 증가 */
             width: 100%;
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -245,51 +419,103 @@
         }
 
         .question-item {
-            margin-bottom: 50px;
+            margin-bottom: 35px;
             opacity: 1;
             transition: all 0.5s ease;
         }
 
+        .question-item:first-child {
+            margin-top: 20px;
+        }
+
         .question-item:last-child {
-            margin-bottom: 80px;
+            margin-bottom: 10px;
         }
 
         .question-item.answered {
             opacity: 0.6;
         }
 
-        /* 결과 화면 */
+        /* 결과 화면 - 수정됨 */
         .result-screen {
             display: none;
             padding: 20px;
             text-align: center;
         }
 
-        .result-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
         .result-subtitle {
-            font-size: 18px;
-            font-weight: 600;
-            color: #d30000;
-            margin-bottom: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 10px;
         }
 
-        /* 삼각형 차트 */
-        .triangle-chart-container {
-            width: 320px;
-            height: 280px;
+        .result-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d30000;
+            margin-bottom: 40px;
+        }
+
+        /* 막대그래프 컨테이너 */
+        .bar-chart-container {
+            width: 100%;
+            max-width: 320px;
             margin: 0 auto 30px;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 12px;
+        }
+
+        .bar-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            width: 60px;
+            text-align: right;
+        }
+
+        .bar-label.highlighted {
+            font-weight: 700;
+            color: #d30000;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 24px;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
             position: relative;
         }
 
-        .triangle-chart {
-            width: 100%;
+        .bar-fill {
             height: 100%;
+            background-color: #ccc;
+            border-radius: 12px;
+            transition: width 1s ease-out;
+            width: 0%;
+        }
+
+        .bar-fill.highlighted {
+            background: linear-gradient(90deg, #d30000, #FF3C43);
+        }
+
+        .bar-score {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            width: 30px;
+            text-align: left;
+        }
+
+        .bar-score.highlighted {
+            font-weight: 700;
+            color: #d30000;
         }
 
         .share-buttons {
@@ -317,12 +543,90 @@
         <!-- 홈 화면 -->
         <div class="screen home-screen" id="homeScreen">
             <div class="logo">
-                <h1>성향테스트</h1>
-                <p>나의 성향은 어떨까?<br>철인 · 수호자 · 시민의 눈</p>
+                <h1>POLITICAL ROLE TEST</h1>
+                <p>나의 정치역할은 무엇일까?</p>
             </div>
             
-            <div class="personality-icon">
-                <div class="personality-icon-text">성향</div>
+            <div class="cards-container">
+                <!-- 철인 카드 (P) -->
+                <div class="role-card philosopher">
+                    <div class="card-corner-top">P</div>
+                    <div class="card-image">
+                        <svg width="50" height="60" viewBox="0 0 50 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 철학자 얼굴 -->
+                            <circle cx="25" cy="20" r="12" fill="#F4C2A1" stroke="#8B4513" stroke-width="1"/>
+                            <!-- 수염 -->
+                            <path d="M15 25 Q25 35 35 25" fill="none" stroke="#8B4513" stroke-width="2"/>
+                            <path d="M17 28 Q25 36 33 28" fill="none" stroke="#8B4513" stroke-width="1.5"/>
+                            <!-- 눈 -->
+                            <circle cx="21" cy="18" r="1.5" fill="#333"/>
+                            <circle cx="29" cy="18" r="1.5" fill="#333"/>
+                            <!-- 모자/월계관 -->
+                            <ellipse cx="25" cy="12" rx="14" ry="4" fill="none" stroke="#DAA520" stroke-width="2"/>
+                            <!-- 하단 대칭 이미지 -->
+                            <g transform="translate(25,45) rotate(180) translate(-25,-15)">
+                                <circle cx="25" cy="20" r="12" fill="#F4C2A1" stroke="#8B4513" stroke-width="1"/>
+                                <path d="M15 25 Q25 35 35 25" fill="none" stroke="#8B4513" stroke-width="2"/>
+                                <circle cx="21" cy="18" r="1.5" fill="#333"/>
+                                <circle cx="29" cy="18" r="1.5" fill="#333"/>
+                                <ellipse cx="25" cy="12" rx="14" ry="4" fill="none" stroke="#DAA520" stroke-width="2"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-corner-bottom">P</div>
+                </div>
+                
+                <!-- 수호자 카드 (G) -->
+                <div class="role-card guardian">
+                    <div class="card-corner-top">G</div>
+                    <div class="card-image">
+                        <svg width="50" height="60" viewBox="0 0 50 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 방패 -->
+                            <path d="M25 5 L35 10 L35 25 Q35 35 25 40 Q15 35 15 25 L15 10 Z" fill="#4169E1" stroke="#000" stroke-width="1.5"/>
+                            <!-- 방패 장식 -->
+                            <path d="M25 8 L32 12 L32 24 Q32 32 25 36 Q18 32 18 24 L18 12 Z" fill="#87CEEB"/>
+                            <!-- 검 -->
+                            <rect x="24" y="15" width="2" height="15" fill="#C0C0C0"/>
+                            <rect x="22" y="15" width="6" height="3" fill="#DAA520"/>
+                            <!-- 하단 대칭 이미지 -->
+                            <g transform="translate(25,45) rotate(180) translate(-25,-15)">
+                                <path d="M25 5 L35 10 L35 25 Q35 35 25 40 Q15 35 15 25 L15 10 Z" fill="#4169E1" stroke="#000" stroke-width="1.5"/>
+                                <path d="M25 8 L32 12 L32 24 Q32 32 25 36 Q18 32 18 24 L18 12 Z" fill="#87CEEB"/>
+                                <rect x="24" y="15" width="2" height="15" fill="#C0C0C0"/>
+                                <rect x="22" y="15" width="6" height="3" fill="#DAA520"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-corner-bottom">G</div>
+                </div>
+                
+                <!-- 시민의눈 카드 (C) -->
+                <div class="role-card citizen">
+                    <div class="card-corner-top">C</div>
+                    <div class="card-image">
+                        <svg width="50" height="60" viewBox="0 0 50 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 이집트 눈 (호루스의 눈) -->
+                            <ellipse cx="25" cy="20" rx="15" ry="8" fill="white" stroke="#DAA520" stroke-width="2"/>
+                            <!-- 눈동자 -->
+                            <circle cx="25" cy="20" r="5" fill="#4169E1"/>
+                            <circle cx="25" cy="20" r="2" fill="#000"/>
+                            <!-- 눈 장식 (이집트 스타일) -->
+                            <path d="M10 20 Q15 25 20 20" fill="none" stroke="#DAA520" stroke-width="2"/>
+                            <path d="M30 20 Q35 25 40 20" fill="none" stroke="#DAA520" stroke-width="2"/>
+                            <path d="M25 28 L25 32" stroke="#DAA520" stroke-width="2"/>
+                            <!-- 하단 대칭 이미지 -->
+                            <g transform="translate(25,45) rotate(180) translate(-25,-15)">
+                                <ellipse cx="25" cy="20" rx="15" ry="8" fill="white" stroke="#DAA520" stroke-width="2"/>
+                                <circle cx="25" cy="20" r="5" fill="#4169E1"/>
+                                <circle cx="25" cy="20" r="2" fill="#000"/>
+                                <path d="M10 20 Q15 25 20 20" fill="none" stroke="#DAA520" stroke-width="2"/>
+                                <path d="M30 20 Q35 25 40 20" fill="none" stroke="#DAA520" stroke-width="2"/>
+                                <path d="M25 28 L25 32" stroke="#DAA520" stroke-width="2"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-corner-bottom">C</div>
+                </div>
             </div>
             
             <div class="start-buttons">
@@ -333,67 +637,52 @@
             </div>
         </div>
 
+        <!-- 닉네임생성 화면 -->
+        <div class="screen nickname-screen" id="nicknameScreen">
+            <div class="nickname-content">
+                <div class="contract-title">당신의 정치역할은?</div>
+                
+                <div class="contract-paragraph">
+                    본 테스트는 넷플릭스 오리지널 프로그램 내에서 활용하기 위해 제작된 척도로, 측정값이 응답자의 견해와 일부 일치하지 않을 수 있습니다.
+                </div>
+                
+                <div class="contract-paragraph">
+                    현재는 테스트 단계이므로 질문 및 사용자환경이 얼마든지 수정될 수 있습니다.
+                </div>
+                
+                <div class="signature-label">닉네임을 입력해주세요</div>
+                <input type="text" 
+                       class="nickname-input" 
+                       id="nicknameInput" 
+                       placeholder="닉네임 (2~8글자)"
+                       maxlength="8">
+                <div class="char-counter" id="charCounter">0 / 8</div>
+            </div>
+            
+            <button class="start-with-nickname-btn" id="startWithNicknameBtn">
+                닉네임 입력하고 시작하기
+            </button>
+        </div>
+
         <!-- 테스트 화면 -->
         <div class="screen test-screen" id="testScreen">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="progress-text" id="progressText">1 / 36</div>
+            <div class="progress-text" id="progressText">1 / 48</div>
             
             <div class="questions-container" id="questionsContainer">
                 <!-- 질문들이 동적으로 추가됩니다 -->
             </div>
         </div>
 
-        <!-- 결과 화면 -->
+        <!-- 결과 화면 - 수정됨 -->
         <div class="screen result-screen" id="resultScreen">
-            <div class="result-title">당신의 성향은</div>
-            <div class="result-subtitle" id="resultSubtitle">철인에 가까운 성향</div>
+            <div class="result-subtitle">당신의 정치역할은</div>
+            <div class="result-title" id="resultTitle">철인</div>
             
-            <div class="triangle-chart-container">
-                <svg class="triangle-chart" viewBox="0 0 300 260">
-                    <!-- 가장 바깥 삼각형 (72점) - 버전5 크기 -->
-                    <polygon points="150,50 81,190 219,190" 
-                             fill="none" 
-                             stroke="#ddd" 
-                             stroke-width="2" 
-                             stroke-dasharray="5,5"/>
-                    
-                    <!-- 3번째 삼각형 (52점) - 버전5 크기 -->
-                    <polygon points="150,73 104,173 196,173" 
-                             fill="none" 
-                             stroke="#ddd" 
-                             stroke-width="1.5" 
-                             stroke-dasharray="4,4"/>
-                    
-                    <!-- 2번째 삼각형 (32점) - 버전5 크기 -->
-                    <polygon points="150,96 127,156 173,156" 
-                             fill="none" 
-                             stroke="#ddd" 
-                             stroke-width="1.5" 
-                             stroke-dasharray="3,3"/>
-                    
-                    <!-- 가장 작은 삼각형 (12점) - 이등변삼각형, 32점 비율 참고 -->
-                    <polygon points="150,119 142,139 158,139" 
-                             fill="none" 
-                             stroke="#ddd" 
-                             stroke-width="1" 
-                             stroke-dasharray="2,2"/>
-                    
-                    <!-- 결과 삼각형 -->
-                    <polygon id="resultTriangle" 
-                             points="150,130 150,130 150,130" 
-                             fill="rgba(211, 0, 0, 0.3)" 
-                             stroke="none"/>
-                    
-                    <!-- 꼭짓점 라벨 -->
-                    <text x="150" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">철인</text>
-                    <text x="65" y="210" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">수호자</text>
-                    <text x="235" y="210" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">시민의 눈</text>
-                    
-                    <!-- 중앙 점 (12점) -->
-                    <circle cx="150" cy="130" r="2" fill="#999"/>
-                </svg>
+            <div class="bar-chart-container" id="barChart">
+                <!-- 막대그래프가 동적으로 생성됩니다 -->
             </div>
             
             <div class="share-buttons">
@@ -495,15 +784,15 @@
             
             indices: [
                 { 
-                    name: "철인지수", 
+                    name: "철인", 
                     parts: ["도덕심", "적시판단", "호불호범위", "K-리더십"] 
                 },
                 { 
-                    name: "수호자지수", 
+                    name: "수호자", 
                     parts: ["충성", "질서", "책임", "보호"] 
                 },
                 { 
-                    name: "시민의 눈지수", 
+                    name: "시민의눈", 
                     parts: ["감시", "참여", "비판", "다양성존중"] 
                 }
             ]
@@ -519,11 +808,11 @@
             return shuffled;
         }
 
-        // 각 지수별로 파트당 3문항씩 선택하여 총 36개 질문 구성
+        // 각 지수별로 파트당 4문항씩 선택하여 총 48개 질문 구성
         function selectQuestionsForTest() {
             const selectedQuestions = [];
             
-            // 3개 지수(indexType: 0,1,2) × 4개 파트 × 3문항씩 = 36문항
+            // 3개 지수(indexType: 0,1,2) × 4개 파트 × 4문항씩 = 48문항
             for (let indexType = 0; indexType < 3; indexType++) {
                 for (let partIndex = 0; partIndex < 4; partIndex++) {
                     // 해당 지수의 해당 파트 문항들 필터링
@@ -531,15 +820,15 @@
                         q.indexType === indexType && q.partIndex === partIndex
                     );
                     
-                    // 파트별 문항들 섞기 후 3개 선택
+                    // 파트별 문항들 섞기 후 4개 선택
                     const shuffledPart = shuffleQuestions(partQuestions);
-                    const selectedPart = shuffledPart.slice(0, 3);
+                    const selectedPart = shuffledPart.slice(0, 4);
                     
                     selectedQuestions.push(...selectedPart);
                 }
             }
             
-            // 선택된 36개 질문을 다시 완전 랜덤으로 섞기
+            // 선택된 48개 질문을 다시 완전 랜덤으로 섞기
             return shuffleQuestions(selectedQuestions);
         }
 
@@ -550,10 +839,11 @@
         let currentQuestion = 0;
         let answers = [];
         let scores = [0, 0, 0]; // 3개 지수별 점수 (철인, 수호자, 시민의눈)
+        let userNickname = ''; // 사용자 닉네임
 
         // 화면 전환 유틸리티 함수
         function switchScreen(targetScreenId) {
-            const allScreens = ['homeScreen', 'testScreen', 'resultScreen'];
+            const allScreens = ['homeScreen', 'nicknameScreen', 'testScreen', 'resultScreen'];
             
             allScreens.forEach(screenId => {
                 const screen = document.getElementById(screenId);
@@ -576,36 +866,128 @@
             }
         }
 
+        // 닉네임 입력 관련 함수들
+        function initializeNicknameScreen() {
+            const nicknameInput = document.getElementById('nicknameInput');
+            const charCounter = document.getElementById('charCounter');
+            const startBtn = document.getElementById('startWithNicknameBtn');
+            
+            // 닉네임 입력 이벤트
+            nicknameInput.addEventListener('input', function() {
+                let value = this.value;
+                
+                // 8글자 제한
+                if (value.length > 8) {
+                    value = value.substring(0, 8);
+                    this.value = value;
+                }
+                
+                // 글자수 표시
+                charCounter.textContent = `${value.length} / 8`;
+                
+                // 버튼 활성화 조건 체크 (2글자 이상)
+                if (value.length >= 2) {
+                    startBtn.classList.add('active');
+                } else {
+                    startBtn.classList.remove('active');
+                }
+            });
+            
+            // 닉네임 입력 완료 버튼
+            startBtn.addEventListener('click', function() {
+                const nickname = nicknameInput.value.trim();
+                if (nickname.length >= 2) {
+                    userNickname = nickname;
+                    switchScreen('testScreen');
+                    showNextQuestion();
+                }
+            });
+            
+            // Enter 키로도 진행 가능
+            nicknameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim().length >= 2) {
+                    startBtn.click();
+                }
+            });
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeNicknameScreen();
+        });
+
+        // 막대그래프 업데이트 함수
+        function updateBarChart(scores) {
+            const roleNames = ['철인', '수호자', '시민의눈'];
+            const displayScores = scores.map(score => score + 4); // +4점 추가
+            
+            // 점수와 인덱스를 함께 묶어서 정렬 (높은 점수부터)
+            const sortedData = displayScores.map((score, index) => ({
+                score: score,
+                name: roleNames[index],
+                originalIndex: index
+            })).sort((a, b) => b.score - a.score);
+            
+            const maxIndex = sortedData[0].originalIndex;
+            
+            // 제목 업데이트 (닉네임 반영)
+            let displayName;
+            if (userNickname) {
+                displayName = `${userNickname}님`;
+            } else {
+                displayName = '당신';
+            }
+            document.getElementById('resultTitle').textContent = roleNames[maxIndex];
+            document.querySelector('.result-subtitle').textContent = `${displayName}의 정치역할은`;
+            
+            // 막대그래프 HTML 동적 생성
+            const barChart = document.getElementById('barChart');
+            barChart.innerHTML = '';
+            
+            // 정렬된 순서대로 막대그래프 생성
+            sortedData.forEach((data, index) => {
+                const barRow = document.createElement('div');
+                barRow.className = 'bar-row';
+                
+                const isHighest = index === 0; // 첫 번째(가장 높은 점수)인지 확인
+                const barWidth = (data.score / 100) * 100; // 100점 기준 퍼센트
+                
+                barRow.innerHTML = `
+                    <div class="bar-label ${isHighest ? 'highlighted' : ''}">${data.name}</div>
+                    <div class="bar-container">
+                        <div class="bar-fill ${isHighest ? 'highlighted' : ''}" style="width: 0%;"></div>
+                    </div>
+                    <div class="bar-score ${isHighest ? 'highlighted' : ''}">${data.score}</div>
+                `;
+                
+                barChart.appendChild(barRow);
+                
+                // 애니메이션과 함께 막대 채우기
+                const barFill = barRow.querySelector('.bar-fill');
+                setTimeout(() => {
+                    barFill.style.width = `${barWidth}%`;
+                }, 300 + index * 200);
+            });
+        }
+
         // 개발용 테스트 기능
         function showRandomResult() {
-            // 랜덤한 점수 생성 (12~72 범위)
+            // 랜덤한 점수 생성 (16~96 범위)
             scores = [
-                Math.floor(Math.random() * 61) + 12, // 철인지수
-                Math.floor(Math.random() * 61) + 12, // 수호자지수
-                Math.floor(Math.random() * 61) + 12  // 시민의눈지수
+                Math.floor(Math.random() * 81) + 16, // 철인지수
+                Math.floor(Math.random() * 81) + 16, // 수호자지수
+                Math.floor(Math.random() * 81) + 16  // 시민의눈지수
             ];
             
+            // 결과테스트는 닉네임 없이 진행 ('당신'이 기본값)
+            userNickname = '';
+            
             switchScreen('resultScreen');
-            
-            // 가장 높은 점수의 지수 찾기
-            const maxScore = Math.max(...scores);
-            const maxIndex = scores.indexOf(maxScore);
-            const resultTypes = ['철인', '수호자', '시민의 눈'];
-            
-            document.getElementById('resultSubtitle').textContent = 
-                `${resultTypes[maxIndex]}에 가까운 성향`;
-
-            // 삼각형 그리기 (간단화된 좌표 사용)
-            const trianglePoints = calculateTrianglePoints(scores);
-            
-            setTimeout(() => {
-                document.getElementById('resultTriangle').setAttribute('points', trianglePoints);
-            }, 500);
+            updateBarChart(scores);
         }
 
         function startTest() {
-            switchScreen('testScreen');
-            showNextQuestion();
+            switchScreen('nicknameScreen');
         }
 
         function showNextQuestion() {
@@ -621,21 +1003,20 @@
             questionItem.className = 'question-item';
             questionItem.innerHTML = `
                 <div class="question-container">
-                    <div class="question-number">질문 ${currentQuestion + 1}</div>
                     <div class="question-text">${question.text}</div>
                 </div>
                 
+                <div class="options-container">
+                    <button class="option-btn" data-value="1" data-question="${currentQuestion}"></button>
+                    <button class="option-btn" data-value="2" data-question="${currentQuestion}"></button>
+                    <button class="option-btn" data-value="3" data-question="${currentQuestion}"></button>
+                    <button class="option-btn" data-value="4" data-question="${currentQuestion}"></button>
+                    <button class="option-btn" data-value="5" data-question="${currentQuestion}"></button>
+                    <button class="option-btn" data-value="6" data-question="${currentQuestion}"></button>
+                </div>
                 <div class="option-labels">
                     <span>매우 반대</span>
                     <span>매우 동의</span>
-                </div>
-                <div class="options-container">
-                    <button class="option-btn" data-value="1" data-question="${currentQuestion}">1</button>
-                    <button class="option-btn" data-value="2" data-question="${currentQuestion}">2</button>
-                    <button class="option-btn" data-value="3" data-question="${currentQuestion}">3</button>
-                    <button class="option-btn" data-value="4" data-question="${currentQuestion}">4</button>
-                    <button class="option-btn" data-value="5" data-question="${currentQuestion}">5</button>
-                    <button class="option-btn" data-value="6" data-question="${currentQuestion}">6</button>
                 </div>
             `;
             
@@ -646,8 +1027,9 @@
                 btn.onclick = () => selectOption(btn);
             });
 
-            document.getElementById('progressText').textContent = `${currentQuestion + 1} / 36`;
-            document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / 36) * 100}%`;
+            // 진행률 표시 48개 기준으로 수정
+            document.getElementById('progressText').textContent = `${currentQuestion + 1} / 48`;
+            document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / 48) * 100}%`;
             
             setTimeout(() => {
                 questionItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -683,78 +1065,47 @@
             }, 100);
         }
 
-        // 점수를 기준선에 맞춰 간단화하는 함수
-        function simplifyScore(score) {
-            if (score <= 21) return 12;      // 12-21 → 12점 삼각형
-            else if (score <= 41) return 32; // 22-41 → 32점 삼각형
-            else if (score <= 61) return 52; // 42-61 → 52점 삼각형
-            else return 72;                   // 62-72 → 72점 삼각형
-        }
-
-        // 삼각형 좌표 계산 함수 (버전5 크기, 12점만 이등변삼각형)
-        function calculateTrianglePoints(scores) {
-            // 점수를 간단화
-            const simplifiedScores = scores.map(simplifyScore);
-            
-            // 버전5 크기 + 12점 이등변삼각형 좌표
-            const trianglePoints = {
-                12: { philosopher: {x: 150, y: 119}, guardian: {x: 142, y: 139}, citizen: {x: 158, y: 139} },
-                32: { philosopher: {x: 150, y: 96}, guardian: {x: 127, y: 156}, citizen: {x: 173, y: 156} },
-                52: { philosopher: {x: 150, y: 73}, guardian: {x: 104, y: 173}, citizen: {x: 196, y: 173} },
-                72: { philosopher: {x: 150, y: 50}, guardian: {x: 81, y: 190}, citizen: {x: 219, y: 190} }
-            };
-            
-            // 각 꼭짓점 좌표 계산
-            const philosopher = trianglePoints[simplifiedScores[0]].philosopher;
-            const guardian = trianglePoints[simplifiedScores[1]].guardian;
-            const citizen = trianglePoints[simplifiedScores[2]].citizen;
-            
-            return `${philosopher.x},${philosopher.y} ${guardian.x},${guardian.y} ${citizen.x},${citizen.y}`;
-        }
-
         function showResult() {
             switchScreen('resultScreen');
-
-            // 가장 높은 점수의 지수 찾기
-            const maxScore = Math.max(...scores);
-            const maxIndex = scores.indexOf(maxScore);
-            const resultTypes = ['철인', '수호자', '시민의 눈'];
-            
-            document.getElementById('resultSubtitle').textContent = 
-                `${resultTypes[maxIndex]}에 가까운 성향`;
-
-            // 삼각형 그리기 (간단화된 좌표 사용)
-            const trianglePoints = calculateTrianglePoints(scores);
-            
-            setTimeout(() => {
-                document.getElementById('resultTriangle').setAttribute('points', trianglePoints);
-            }, 500);
+            updateBarChart(scores);
         }
 
         function restartTest() {
             currentQuestion = 0;
             answers = [];
             scores = [0, 0, 0];
+            userNickname = '';
             testQuestions = selectQuestionsForTest();
             
+            // 닉네임 입력란 초기화
+            const nicknameInput = document.getElementById('nicknameInput');
+            const charCounter = document.getElementById('charCounter');
+            const startBtn = document.getElementById('startWithNicknameBtn');
+            
+            nicknameInput.value = '';
+            charCounter.textContent = '0 / 8';
+            startBtn.classList.remove('active');
+            
+            // 테스트 화면 초기화
             document.getElementById('questionsContainer').innerHTML = '';
-            document.getElementById('progressText').textContent = '1 / 36';
+            document.getElementById('progressText').textContent = '1 / 48';
             document.getElementById('progressFill').style.width = '0%';
             
             switchScreen('homeScreen');
         }
 
         function shareKakaoTalk() {
-            const resultTypes = ['철인', '수호자', '시민의 눈'];
-            const maxIndex = scores.indexOf(Math.max(...scores));
-            alert(`카카오톡 공유 기능 (결과: ${resultTypes[maxIndex]})\n실제 구현 시 카카오 SDK를 사용하세요.`);
+            const roleNames = ['철인', '수호자', '시민의눈'];
+            const displayScores = scores.map(score => score + 4);
+            const maxIndex = displayScores.indexOf(Math.max(...displayScores));
+            alert(`카카오톡 공유 기능 (결과: ${roleNames[maxIndex]})\n실제 구현 시 카카오 SDK를 사용하세요.`);
         }
 
         function shareLink() {
             if (navigator.share) {
                 navigator.share({
                     title: '성향테스트 - 철인/수호자/시민의눈',
-                    text: '나의 성향을 확인해보세요!',
+                    text: '나의 정치역할을 확인해보세요!',
                     url: window.location.href
                 });
             } else {
